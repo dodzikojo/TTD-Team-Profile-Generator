@@ -42,7 +42,15 @@ const teamManagerQuestions = [
     {
         type: 'input',
         name: 'officeNumber',
-        message: "What is the Team Manager's office number?"
+        message: "What is the Team Manager's office number?",
+        validate(value) {
+            if (isNaN(value)) {
+                return 'Please input a valid phone number'
+            }
+            else{
+                return true;
+            }
+        }
     },
     {
         type: 'list',
