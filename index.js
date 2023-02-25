@@ -188,7 +188,7 @@ function getSelectedChoiceIndex(selection) {
 function askInternQuestions() {
     inquirer.prompt(internQuestions).then((internAnswers) => {
 
-        let intern = new Intern(internAnswers.name, internAnswers.id, internAnswers.emailAddress, internAnswers.school)
+        let intern = new Intern(internAnswers.name, internAnswers.employeeID, internAnswers.emailAddress, internAnswers.school)
         teamSetupArr.push(intern)
 
         switch (getSelectedChoiceIndex(internAnswers.nextAction)) {
@@ -210,7 +210,7 @@ function askInternQuestions() {
 function askEngineerQuestions() {
     inquirer.prompt(engineerQuestions).then((engineerAnswers) => {
 
-        let engineer = new Engineer(engineerAnswers.name, engineerAnswers.employeeID, engineerAnswers.emailAddress, engineerAnswers.officeNumber)
+        let engineer = new Engineer(engineerAnswers.name, engineerAnswers.employeeID, engineerAnswers.emailAddress, engineerAnswers.githubUsername)
         teamSetupArr.push(engineer)
 
         switch (getSelectedChoiceIndex(engineerAnswers.nextAction)) {
@@ -259,6 +259,7 @@ function init() {
 
 
 function writeToFile(outputPath, data){
+    //Create the folder
     fs.promises.mkdir(OUTPUT_DIR, { recursive: true }).catch(console.error);
 
     fs.writeFile(outputPath, data, (error) => {
