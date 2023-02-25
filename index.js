@@ -91,7 +91,7 @@ const engineerQuestions = [
         name: 'emailAddress',
         message: "What is the Engineer's email address?",
         validate(value) {
-            if (ValidateEmail(value)) {
+            if (!ValidateEmail(value)) {
                 return 'Please input a valid email address'
             }
             else{
@@ -139,7 +139,7 @@ const internQuestions = [
         name: 'emailAddress',
         message: "What is the Intern's email address?",
         validate(value) {
-            if (ValidateEmail(value)) {
+            if (!ValidateEmail(value)) {
                 return 'Please input a valid email address'
             }
             else{
