@@ -37,7 +37,15 @@ const teamManagerQuestions = [
     {
         type: 'input',
         name: 'emailAddress',
-        message: "What is the Team Manager's email address?"
+        message: "What is the Team Manager's email address?",
+        validate(value) {
+            if (!ValidateEmail(value)) {
+                return 'Please input a valid email address'
+            }
+            else{
+                return true;
+            }
+        }
     },
     {
         type: 'input',
@@ -85,7 +93,15 @@ const engineerQuestions = [
     {
         type: 'input',
         name: 'emailAddress',
-        message: "What is the Engineer's email address?"
+        message: "What is the Engineer's email address?",
+        validate(value) {
+            if (ValidateEmail(value)) {
+                return 'Please input a valid email address'
+            }
+            else{
+                return true;
+            }
+        }
     },
     {
         type: 'input',
@@ -125,7 +141,15 @@ const internQuestions = [
     {
         type: 'input',
         name: 'emailAddress',
-        message: "What is the Intern's email address?"
+        message: "What is the Intern's email address?",
+        validate(value) {
+            if (ValidateEmail(value)) {
+                return 'Please input a valid email address'
+            }
+            else{
+                return true;
+            }
+        }
     },
     {
         type: 'input',
@@ -143,6 +167,14 @@ const internQuestions = [
     }
 ]
 
+function ValidateEmail(input) {
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (input.match(validRegex)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 
 //Function to get selected choices
