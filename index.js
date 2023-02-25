@@ -11,6 +11,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./src/page-template.js");
 
 
+const choices = ["Add an engineer", "Add an intern", "Finish building the team"]
+
+
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 const teamManagerQuestions = [
     {
@@ -35,9 +38,9 @@ const teamManagerQuestions = [
     },
     {
         type: 'list',
-        name: 'teamMemberType',
+        name: 'nextAction',
         message: "What would you like to to do next?",
-        choices: ["Add an engineer", "Add an intern", "Finish building the team"],
+        choices: choices,
         filter(val) {
             return val.toLowerCase();
         }
@@ -53,28 +56,100 @@ const engineerQuestions = [
     {
         type: 'input',
         name: 'employeeID',
-        message: "What is the Team Manager's ID?"
+        message: "What is the Engineer's ID?"
     },
     {
         type: 'input',
         name: 'emailAddress',
-        message: "What is the Team Manager's email address?"
+        message: "What is the Engineer's email address?"
+    },
+    {
+        type: 'input',
+        name: 'githubUsername',
+        message: "What is the Engineer's GitHub username?"
+    },
+    // {
+    //     type: 'list',
+    //     name: 'nextAction',
+    //     message: "What would you like to to do next?",
+    //     choices: choices,
+    //     filter(val) {
+    //         return val.toLowerCase();
+    //     }
+    // }
+]
+
+const internQuestions = [
+    {
+        type: 'input',
+        name: 'name',
+        message: "What is the Intern's name"
+    },
+    {
+        type: 'input',
+        name: 'employeeID',
+        message: "What is the Intern's ID?"
     },
     {
         type: 'input',
         name: 'emailAddress',
-        message: "What is the Team Manager's office number?"
+        message: "What is the Intern's email address?"
     },
     {
-        type: 'list',
-        name: 'teamMemberType',
-        message: "What would you like to to do next?",
-        choices: ["Add an engineer", "Add an intern", "Finish building the team"],
-        filter(val) {
-            return val.toLowerCase();
+        type: 'input',
+        name: 'school',
+        message: "What is the Intern's school?"
+    },
+    // {
+    //     type: 'list',
+    //     name: 'nextAction',
+    //     message: "What would you like to to do next?",
+    //     choices: choices,
+    //     filter(val) {
+    //         return val.toLowerCase();
+    //     }
+    // }
+]
+
+
+
+//Function to get selected choices
+function getSelectedChoiceIndex(selection) {
+    console.log("getting selected index number")
+    for (let index = 0; index < choices.length; index++) {
+        if (selection.toLowerCase() == choices[index].toLowerCase()) {
+            console.log(index)
+            return index;
         }
     }
-]
+
+}
+
+
+function init() {
+    inquirer.prompt(teamManagerQuestions).then((teamManagerAnswers) => {
+        
+        switch (getSelectedChoiceIndex(teamManagerAnswers.nextAction)) {
+            case 0:
+                inquirer.prompt(engineerQuestions).then((engineerAnswers) => {
+
+                });
+                break;
+            case 1:
+                inquirer.prompt(internQuestions).then((internAnswers) => {
+
+                });
+                break;
+
+            default:
+                break;
+        }
+
+    });
+}
+
+//function call to initialize program
+init()
 
 
 
