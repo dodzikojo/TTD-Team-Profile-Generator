@@ -210,7 +210,7 @@ function askInternQuestions() {
 function askEngineerQuestions() {
     inquirer.prompt(engineerQuestions).then((engineerAnswers) => {
 
-        let engineer = new Manager(engineerAnswers.name, engineerAnswers.employeeID, engineerAnswers.emailAddress, engineerAnswers.officeNumber)
+        let engineer = new Engineer(engineerAnswers.name, engineerAnswers.employeeID, engineerAnswers.emailAddress, engineerAnswers.officeNumber)
         teamSetupArr.push(engineer)
 
         switch (getSelectedChoiceIndex(engineerAnswers.nextAction)) {
