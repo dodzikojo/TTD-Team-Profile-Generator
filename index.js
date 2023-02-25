@@ -15,7 +15,6 @@ const choices = ["Add an engineer", "Add an intern", "Finish building the team"]
 const teamSetupArr = []
 
 
-// TODO: Write Code to gather information about the development team members, and render the HTML file.
 const teamManagerQuestions = [
     {
         type: 'input',
@@ -125,6 +124,7 @@ function getSelectedChoiceIndex(selection) {
 }
 
 
+//function to ask questions to generaate the intern object.
 function askInternQuestions() {
     inquirer.prompt(internQuestions).then((internAnswers) => {
 
@@ -139,14 +139,14 @@ function askInternQuestions() {
                 askInternQuestions()
                 break;
             case 2:
-                console.log(team(teamSetupArr))
+                writeToFile(outputPath, team(teamSetupArr))
                 break;
         }
 
     });
 }
 
-
+//function to ask questions to generaate the engineer object.
 function askEngineerQuestions() {
     inquirer.prompt(engineerQuestions).then((engineerAnswers) => {
 
@@ -161,7 +161,7 @@ function askEngineerQuestions() {
                 askInternQuestions()
                 break;
             case 2:
-                console.log(team(teamSetupArr))
+                writeToFile(outputPath, team(teamSetupArr))
                 break;
         }
 
@@ -169,6 +169,8 @@ function askEngineerQuestions() {
 }
 
 
+
+//Starting point of the application. Sets the questions for manager.
 function init() {
     inquirer.prompt(teamManagerQuestions).then((teamManagerAnswers) => {
 
@@ -184,7 +186,7 @@ function init() {
                 askInternQuestions()
                 break;
             case 2:
-                console.log(team(teamSetupArr))
+                writeToFile(outputPath, team(teamSetupArr))
                 break;
         }
 
@@ -195,9 +197,9 @@ function init() {
 
 
 // function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, (error) => {
-        error ? console.error(error) : console.log(`File generated successfully, located here ${fileName}`)
+function writeToFile(outputPath, data) {
+    fs.writeFile(outputPath, data, (error) => {
+        error ? console.error(error) : console.log(`File generated successfully, located here ${outputPath}`)
     })
 }
 
