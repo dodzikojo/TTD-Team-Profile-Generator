@@ -8,7 +8,7 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const renderTeam = require("./src/page-template.js");
+const team = require("./src/page-template.js");
 
 const choices = ["Add an engineer", "Add an intern", "Finish building the team"]
 
@@ -108,35 +108,33 @@ function getSelectedChoiceIndex(selection) {
 
 function init() {
 
-    const allEmployers = []
+    const teamSetup = []
 
     inquirer.prompt(teamManagerQuestions).then((teamManagerAnswers) => {
 
         let manager = new Manager(teamManagerAnswers.name, teamManagerAnswers.employeeID, teamManagerAnswers.emailAddress, teamManagerAnswers.officeNumber)
+        teamSetup.push(manager)
+        team(teamSetup)
 
-        allEmployers.push(manager)
+        switch (getSelectedChoiceIndex(teamManagerAnswers.nextAction)) {
+            case 0:
+                inquirer.prompt(engineerQuestions).then((engineerAnswers) => {
+                    let engineer = new Engineer(engineerAnswers.name, engineerAnswers.id, engineerAnswers.emailAddress, engineerAnswers.githubUsername)
 
-        renderTeam()
+                    allEmployers.push(engineer)
+                });
+                break;
+            case 1:
+                inquirer.prompt(internQuestions).then((internAnswers) => {
+                    let intern = new Intern(internAnswers.name, internAnswers.id, internAnswers.emailAddress, internAnswers.school)
 
-        // switch (getSelectedChoiceIndex(teamManagerAnswers.nextAction)) {
-        //     case 0:
-        //         inquirer.prompt(engineerQuestions).then((engineerAnswers) => {
-        //             let engineer = new Engineer(engineerAnswers.name, engineerAnswers.id, engineerAnswers.emailAddress, engineerAnswers.githubUsername)
+                    allEmployers.push(intern)
+                });
+                break;
 
-        //             allEmployers.push(engineer)
-        //         });
-        //         break;
-        //     case 1:
-        //         inquirer.prompt(internQuestions).then((internAnswers) => {
-        //             let intern = new Intern(internAnswers.name, internAnswers.id, internAnswers.emailAddress, internAnswers.school)
-
-        //             allEmployers.push(intern)
-        //         });
-        //         break;
-
-        //     default:
-        //         break;
-        // }
+            default:
+                break;
+        }
 
     });
 
