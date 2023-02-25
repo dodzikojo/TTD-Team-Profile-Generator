@@ -33,7 +33,7 @@ const teamManagerQuestions = [
     },
     {
         type: 'input',
-        name: 'emailAddress',
+        name: 'officeNumber',
         message: "What is the Team Manager's office number?"
     },
     {
@@ -67,16 +67,7 @@ const engineerQuestions = [
         type: 'input',
         name: 'githubUsername',
         message: "What is the Engineer's GitHub username?"
-    },
-    // {
-    //     type: 'list',
-    //     name: 'nextAction',
-    //     message: "What would you like to to do next?",
-    //     choices: choices,
-    //     filter(val) {
-    //         return val.toLowerCase();
-    //     }
-    // }
+    }
 ]
 
 const internQuestions = [
@@ -100,22 +91,12 @@ const internQuestions = [
         name: 'school',
         message: "What is the Intern's school?"
     },
-    // {
-    //     type: 'list',
-    //     name: 'nextAction',
-    //     message: "What would you like to to do next?",
-    //     choices: choices,
-    //     filter(val) {
-    //         return val.toLowerCase();
-    //     }
-    // }
 ]
 
 
 
 //Function to get selected choices
 function getSelectedChoiceIndex(selection) {
-    console.log("getting selected index number")
     for (let index = 0; index < choices.length; index++) {
         if (selection.toLowerCase() == choices[index].toLowerCase()) {
             console.log(index)
@@ -127,17 +108,28 @@ function getSelectedChoiceIndex(selection) {
 
 
 function init() {
+
+    const allEmployers = []
+
     inquirer.prompt(teamManagerQuestions).then((teamManagerAnswers) => {
-        
+
+        let manager = new Manager(teamManagerAnswers.name, teamManagerAnswers.employeeID, teamManagerAnswers.emailAddress, teamManagerAnswers.officeNumber)
+
+        allEmployers.push(manager)
+
         switch (getSelectedChoiceIndex(teamManagerAnswers.nextAction)) {
             case 0:
                 inquirer.prompt(engineerQuestions).then((engineerAnswers) => {
+                    let engineer = new Engineer(engineerAnswers.name, engineerAnswers.id, engineerAnswers.emailAddress, engineerAnswers.githubUsername)
 
+                    allEmployers.push(engineer)
                 });
                 break;
             case 1:
                 inquirer.prompt(internQuestions).then((internAnswers) => {
+                    let intern = new Intern(internAnswers.name, internAnswers.id, internAnswers.emailAddress, internAnswers.school)
 
+                    allEmployers.push(intern)
                 });
                 break;
 
