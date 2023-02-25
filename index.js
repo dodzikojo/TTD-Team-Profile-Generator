@@ -8,7 +8,7 @@ const fs = require("fs");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./src/page-template.js");
+const renderTeam = require("./src/page-template.js");
 
 const choices = ["Add an engineer", "Add an intern", "Finish building the team"]
 
@@ -116,7 +116,7 @@ function init() {
 
         allEmployers.push(manager)
 
-        render.generateTeam()
+        renderTeam()
 
         // switch (getSelectedChoiceIndex(teamManagerAnswers.nextAction)) {
         //     case 0:
