@@ -24,7 +24,15 @@ const teamManagerQuestions = [
     {
         type: 'input',
         name: 'employeeID',
-        message: "What is the Team Manager's ID?"
+        message: "What is the Team Manager's ID?",
+        validate(value) {
+            if (isNaN(value)) {
+                return 'Please input a valid number'
+            }
+            else{
+                return true;
+            }
+        }
     },
     {
         type: 'input',
@@ -56,7 +64,15 @@ const engineerQuestions = [
     {
         type: 'input',
         name: 'employeeID',
-        message: "What is the Engineer's ID?"
+        message: "What is the Engineer's ID?",
+        validate(value) {
+            if (isNaN(value)) {
+                return 'Please input a valid number'
+            }
+            else{
+                return true;
+            }
+        }
     },
     {
         type: 'input',
@@ -88,7 +104,15 @@ const internQuestions = [
     {
         type: 'input',
         name: 'employeeID',
-        message: "What is the Intern's ID?"
+        message: "What is the Intern's ID?",
+        validate(value) {
+            if (isNaN(value)) {
+                return 'Please input a valid number'
+            }
+            else{
+                return true;
+            }
+        }
     },
     {
         type: 'input',
