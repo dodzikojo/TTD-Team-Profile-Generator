@@ -12,6 +12,8 @@ const team = require("./src/page-template.js");
 
 const choices = ["Add an engineer", "Add an intern", "Finish building the team"]
 
+const teamSetupArr = []
+
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 const teamManagerQuestions = [
@@ -66,6 +68,15 @@ const engineerQuestions = [
         type: 'input',
         name: 'githubUsername',
         message: "What is the Engineer's GitHub username?"
+    },
+    {
+        type: 'list',
+        name: 'nextAction',
+        message: "What would you like to to do next?",
+        choices: choices,
+        filter(val) {
+            return val.toLowerCase();
+        }
     }
 ]
 
@@ -90,6 +101,15 @@ const internQuestions = [
         name: 'school',
         message: "What is the Intern's school?"
     },
+    {
+        type: 'list',
+        name: 'nextAction',
+        message: "What would you like to to do next?",
+        choices: choices,
+        filter(val) {
+            return val.toLowerCase();
+        }
+    }
 ]
 
 
@@ -98,7 +118,6 @@ const internQuestions = [
 function getSelectedChoiceIndex(selection) {
     for (let index = 0; index < choices.length; index++) {
         if (selection.toLowerCase() == choices[index].toLowerCase()) {
-            console.log(index)
             return index;
         }
     }
@@ -106,38 +125,71 @@ function getSelectedChoiceIndex(selection) {
 }
 
 
-function init() {
+function askInternQuestions() {
+    inquirer.prompt(internQuestions).then((internAnswers) => {
 
-    const teamSetup = []
+        let intern = new Intern(internAnswers.name, internAnswers.id, internAnswers.emailAddress, internAnswers.school)
+        teamSetupArr.push(intern)
 
-    inquirer.prompt(teamManagerQuestions).then((teamManagerAnswers) => {
-
-        let manager = new Manager(teamManagerAnswers.name, teamManagerAnswers.employeeID, teamManagerAnswers.emailAddress, teamManagerAnswers.officeNumber)
-        teamSetup.push(manager)
-        team(teamSetup)
-
-        switch (getSelectedChoiceIndex(teamManagerAnswers.nextAction)) {
+        switch (getSelectedChoiceIndex(internAnswers.nextAction)) {
             case 0:
-                inquirer.prompt(engineerQuestions).then((engineerAnswers) => {
-                    let engineer = new Engineer(engineerAnswers.name, engineerAnswers.id, engineerAnswers.emailAddress, engineerAnswers.githubUsername)
-
-                    allEmployers.push(engineer)
-                });
+                askEngineerQuestions()
                 break;
             case 1:
-                inquirer.prompt(internQuestions).then((internAnswers) => {
-                    let intern = new Intern(internAnswers.name, internAnswers.id, internAnswers.emailAddress, internAnswers.school)
-
-                    allEmployers.push(intern)
-                });
+                askInternQuestions()
                 break;
-
-            default:
+            case 2:
+                console.log(team(teamSetupArr))
                 break;
         }
 
     });
+}
 
+
+function askEngineerQuestions() {
+    inquirer.prompt(engineerQuestions).then((engineerAnswers) => {
+
+        let engineer = new Manager(engineerAnswers.name, engineerAnswers.employeeID, engineerAnswers.emailAddress, engineerAnswers.officeNumber)
+        teamSetupArr.push(engineer)
+
+        switch (getSelectedChoiceIndex(engineerAnswers.nextAction)) {
+            case 0:
+                askEngineerQuestions()
+                break;
+            case 1:
+                askInternQuestions()
+                break;
+            case 2:
+                console.log(team(teamSetupArr))
+                break;
+        }
+
+    });
+}
+
+
+function init() {
+    inquirer.prompt(teamManagerQuestions).then((teamManagerAnswers) => {
+
+        let manager = new Manager(teamManagerAnswers.name, teamManagerAnswers.employeeID, teamManagerAnswers.emailAddress, teamManagerAnswers.officeNumber)
+        teamSetupArr.push(manager)
+
+        switch (getSelectedChoiceIndex(teamManagerAnswers.nextAction)) {
+            case 0:
+
+                askEngineerQuestions()
+                break;
+            case 1:
+                askInternQuestions()
+                break;
+            case 2:
+                console.log(team(teamSetupArr))
+                break;
+        }
+
+
+    });
 
 }
 
@@ -148,6 +200,7 @@ function writeToFile(fileName, data) {
         error ? console.error(error) : console.log(`File generated successfully, located here ${fileName}`)
     })
 }
+
 
 //function call to initialize program
 init()
